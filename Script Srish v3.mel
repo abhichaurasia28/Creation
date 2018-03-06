@@ -1,0 +1,46 @@
+global string $win;
+int $ta;
+int $te;
+int $i, $j;
+
+if(`window -ex $win`){ deleteUI -window $win;}
+
+string $win = `window -t "Sristi v1" -s 1 -wh 250 100`; 
+columnLayout -adj true;
+text -l "Note: Make sure you have set your project!";
+text -l "Note: Please check number and extention!";
+text -l "Start Frame"; intField -ann "Time Start: " ta;
+text -l "End Frame  "; intField -ann "Time End: "  te;
+//Open Browzer
+button -l "Change Location" -c "path"; 
+text -l "Note: Images will be saved in 'temp' folder";
+
+button -l "OK" -w 50  -h 25 -c "task";
+showWindow $win;
+
+proc path(){
+    fileBrowser("change", "This Location?", "", 4);    
+   }
+//Optional Path Change   
+proc change(string $dirpath, string $type){
+    
+     workspace -fr "images" $dirpath;
+}
+
+proc task(){
+int $ta = `intField -q -v ta`;
+int $te = `intField -q -v te`;  
+playbackOptions -min $ta -max $te;
+currentTime -e $ta;
+//Change file name to add Frame Number before ext
+setAttr defaultRenderGlobals.outFormatControl 0;
+setAttr defaultRenderGlobals.animation 1;
+setAttr defaultRenderGlobals.putFrameBeforeExt 1;
+setAttr defaultRenderGlobals.extensionPadding 4;
+
+$j = $te-$ta + 1;
+for($i=0; $i<$j; $i++){
+    RenderIntoNewWindow;
+    playButtonStepForward;
+}
+}
