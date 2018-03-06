@@ -5,7 +5,7 @@ int $i, $j;
 
 if(`window -ex $win`){ deleteUI -window $win;}
 
-string $win = `window -t "Sristi v1" -s 1 -wh 250 100`; 
+string $win = `window -t "Srishti v1" -s 1 -wh 250 100`; 
 columnLayout -adj true;
 text -l "Note: Make sure you have set your project!";
 text -l "Note: Please check number and extention!";
